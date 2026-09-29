@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ManutencaoRouteImport } from './routes/manutencao'
 import { Route as RastreamentoRouteImport } from './routes/rastreamento'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as VeiculoIdRouteImport } from './routes/veiculo.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const RelatoriosRoute = RelatoriosRouteImport.update({
   path: '/relatorios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VeiculoIdRoute = VeiculoIdRouteImport.update({
+  id: '/veiculo/$id',
+  path: '/veiculo/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/manutencao': typeof ManutencaoRoute
   '/rastreamento': typeof RastreamentoRoute
   '/relatorios': typeof RelatoriosRoute
+  '/veiculo/$id': typeof VeiculoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/manutencao': typeof ManutencaoRoute
   '/rastreamento': typeof RastreamentoRoute
   '/relatorios': typeof RelatoriosRoute
+  '/veiculo/$id': typeof VeiculoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,21 @@ export interface FileRoutesById {
   '/manutencao': typeof ManutencaoRoute
   '/rastreamento': typeof RastreamentoRoute
   '/relatorios': typeof RelatoriosRoute
+  '/veiculo/$id': typeof VeiculoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/manutencao' | '/rastreamento' | '/relatorios'
+  fullPaths:
+    '/' | '/manutencao' | '/rastreamento' | '/relatorios' | '/veiculo/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/manutencao' | '/rastreamento' | '/relatorios'
-  id: '__root__' | '/' | '/manutencao' | '/rastreamento' | '/relatorios'
+  to: '/' | '/manutencao' | '/rastreamento' | '/relatorios' | '/veiculo/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/manutencao'
+    | '/rastreamento'
+    | '/relatorios'
+    | '/veiculo/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +83,7 @@ export interface RootRouteChildren {
   ManutencaoRoute: typeof ManutencaoRoute
   RastreamentoRoute: typeof RastreamentoRoute
   RelatoriosRoute: typeof RelatoriosRoute
+  VeiculoIdRoute: typeof VeiculoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RelatoriosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/veiculo/$id': {
+      id: '/veiculo/$id'
+      path: '/veiculo/$id'
+      fullPath: '/veiculo/$id'
+      preLoaderRoute: typeof VeiculoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +131,7 @@ const rootRouteChildren: RootRouteChildren = {
   ManutencaoRoute: ManutencaoRoute,
   RastreamentoRoute: RastreamentoRoute,
   RelatoriosRoute: RelatoriosRoute,
+  VeiculoIdRoute: VeiculoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
