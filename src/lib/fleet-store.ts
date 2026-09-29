@@ -69,8 +69,8 @@ function recalcAlertas(s: State): Alerta[] {
 
 state = { ...state, alertas: recalcAlertas(state) };
 
-/** 1 segundo real = 1 minuto de operação (simulação acelerada) */
-const FATOR = 60;
+/** 1 segundo real = 12 segundos de operação */
+const FATOR = 12;
 
 function avancar(v: Vehicle, segundos: number): Vehicle {
   const emMovimento = v.rastreando || v.status === "em_rota" || v.status === "critico";
