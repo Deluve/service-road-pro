@@ -34,7 +34,7 @@ function Frota() {
     <AppShell titulo="Frota" sublinha="painel de operação">
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Kpi rotulo="Veículos ativos" valor={String(ativos).padStart(2, "0")} sufixo={`/${veiculos.length}`} />
-        <Kpi rotulo="Km simulados hoje" valor={formatKm(kmHoje)} />
+        <Kpi rotulo="Km rodados hoje" valor={formatKm(kmHoje)} />
         <Kpi rotulo="Alertas críticos" valor={String(criticos).padStart(2, "0")} tom="crit" />
         <Kpi rotulo="Eficiência de frota" valor={String(eficiencia)} sufixo="%" tom="accent" />
       </section>

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/rastreamento")({
       { title: "Rastreamento GPS — VULCAN Fleet Control" },
       {
         name: "description",
-        content: "Simulação de rastreamento GPS por veículo: inicie ou pare a rota e acompanhe os km percorridos.",
+        content: "Rastreamento GPS por veículo: inicie ou pare a rota e acompanhe os km percorridos.",
       },
       { property: "og:title", content: "Rastreamento GPS — VULCAN Fleet Control" },
       {
@@ -29,7 +29,7 @@ function Rastreamento() {
   const v = veiculos.find((x) => x.id === selecionado) ?? veiculos[0];
 
   return (
-    <AppShell titulo="Rastreamento" sublinha="simulação GPS">
+    <AppShell titulo="Rastreamento" sublinha="GPS em tempo real">
       <div className="grid lg:grid-cols-3 gap-4">
         <Panel titulo="Unidades" sublinha="selecione para rastrear" className="lg:col-span-1">
           <div className="divide-y divide-border">
