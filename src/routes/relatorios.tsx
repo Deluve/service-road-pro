@@ -94,7 +94,7 @@ function Relatorios() {
             </table>
           </div>
           <p className="text-[11px] font-mono text-muted">
-            Exportação em PDF simulada — abre a caixa de impressão do navegador com o relatório formatado.
+            Exportação em PDF — abre a caixa de impressão do navegador com o relatório formatado.
           </p>
         </div>
       </Panel>
