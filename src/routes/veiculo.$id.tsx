@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { Botao, Panel, RouteTrace, StatusChip, WearBar } from "@/components/fleet-ui";
 import { fleetStore, useFleet } from "@/lib/fleet-store";
-import { formatKm, formatMoeda, vidaUtil } from "@/lib/fleet-data";
+import { especificacoes, formatKm, formatMoeda, sintomas, vidaUtil } from "@/lib/fleet-data";
+import { useState } from "react";
 
 export const Route = createFileRoute("/veiculo/$id")({
   head: () => ({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/veiculo/$id")({
       { title: "Detalhe do veículo — VULCAN Fleet Control" },
       { name: "description", content: "Odômetro, rota, vida útil das peças e histórico de manutenção do veículo." },
       { property: "og:title", content: "Detalhe do veículo — VULCAN Fleet Control" },
-      { property: "og:description", content: "Painel individual do caminhão: peças, rota e histórico." },
+      { property: "og:description", content: "Painel individual da viatura: peças, rota e histórico." },
     ],
   }),
   component: Detalhe,
@@ -20,6 +21,8 @@ function Detalhe() {
   const { id } = Route.useParams();
   const { veiculos } = useFleet();
   const v = veiculos.find((x) => x.id === id);
+  const [marcados, setMarcados] = useState<Record<string, boolean>>({});
+  const totalMarcados = Object.values(marcados).filter(Boolean).length;
 
   if (!v) {
     return (
@@ -72,6 +75,51 @@ function Detalhe() {
           <div className="p-4 space-y-3">
             {v.pecas.map((p) => (
               <WearBar key={p.id} nome={p.nome} pct={vidaUtil(p)} restanteKm={p.intervaloKm - p.usoKm} />
+            ))}
+          </div>
+        </Panel>
+
+        <Panel titulo="Ficha técnica" sublinha="Toyota Coaster 3B">
+          <dl className="divide-y divide-border">
+            {especificacoes.map((e) => (
+              <div key={e.rotulo} className="px-4 py-2 flex justify-between gap-3 text-xs">
+                <dt className="text-muted">{e.rotulo}</dt>
+                <dd className="font-mono text-right">{e.valor}</dd>
+              </div>
+            ))}
+          </dl>
+        </Panel>
+
+        <Panel
+          titulo="Inspeção de sintomas"
+          sublinha="marque os sinais detectados na viatura"
+          className="lg:col-span-2"
+          acao={
+            <span className={`text-[11px] font-mono ${totalMarcados ? "text-crit" : "text-muted"}`}>
+              {totalMarcados} detectado(s)
+            </span>
+          }
+        >
+          <div className="p-4 grid sm:grid-cols-2 gap-4">
+            {sintomas.map((g) => (
+              <div key={g.grupo}>
+                <div className="text-[10px] uppercase tracking-[0.14em] text-muted mb-2">{g.grupo}</div>
+                <ul className="space-y-1.5">
+                  {g.itens.map((it) => (
+                    <li key={it}>
+                      <label className="flex items-start gap-2 text-xs cursor-pointer">
+                        <input
+                          type="checkbox"
+                          className="mt-0.5 accent-[var(--color-crit)]"
+                          checked={!!marcados[it]}
+                          onChange={(e) => setMarcados((m) => ({ ...m, [it]: e.target.checked }))}
+                        />
+                        <span className={marcados[it] ? "text-crit font-semibold" : ""}>{it}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </Panel>
