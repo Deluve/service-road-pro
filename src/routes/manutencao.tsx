@@ -122,7 +122,7 @@ function Manutencao() {
               </select>
             </label>
             <label className="text-xs space-y-1.5">
-              <span className="text-[10px] uppercase tracking-[0.14em] text-muted">Custo (R$)</span>
+              <span className="text-[10px] uppercase tracking-[0.14em] text-muted">Custo (MZN)</span>
               <input
                 value={custo}
                 onChange={(e) => setCusto(e.target.value)}
