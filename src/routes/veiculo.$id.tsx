@@ -11,7 +11,7 @@ export const Route = createFileRoute("/veiculo/$id")({
       { title: "Detalhe do veículo — VULCAN Fleet Control" },
       { name: "description", content: "Odômetro, rota, vida útil das peças e histórico de manutenção do veículo." },
       { property: "og:title", content: "Detalhe do veículo — VULCAN Fleet Control" },
-      { property: "og:description", content: "Painel individual do caminhão: peças, rota e histórico." },
+      { property: "og:description", content: "Painel individual da viatura: peças, rota e histórico." },
     ],
   }),
   component: Detalhe,

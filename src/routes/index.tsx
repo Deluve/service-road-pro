@@ -11,12 +11,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Painel de operação da frota de caminhões pesados: odômetro em tempo real, status por veículo e alertas de manutenção.",
+          "Painel de operação da frota de viaturas: odômetro em tempo real, status por veículo e alertas de manutenção.",
       },
       { property: "og:title", content: "Frota — VULCAN Fleet Control" },
       {
         property: "og:description",
-        content: "Painel de operação da frota de caminhões pesados com odômetro em tempo real e alertas de manutenção.",
+        content: "Painel de operação da frota de viaturas com odômetro em tempo real e alertas de manutenção.",
       },
     ],
   }),

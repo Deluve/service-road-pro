@@ -11,7 +11,7 @@ export const Route = createFileRoute("/manutencao")({
       { title: "Manutenção — VULCAN Fleet Control" },
       {
         name: "description",
-        content: "Vida útil das peças, alertas automáticos e registro de manutenção da frota de caminhões pesados.",
+        content: "Vida útil das peças, alertas automáticos e registro de manutenção da frota de viaturas.",
       },
       { property: "og:title", content: "Manutenção — VULCAN Fleet Control" },
       {
