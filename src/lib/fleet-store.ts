@@ -3,6 +3,7 @@ import {
   veiculosIniciais,
   vidaUtil,
   severidade,
+  isPecaCritica,
   type Vehicle,
   type MaintenanceRecord,
 } from "./fleet-data";
@@ -69,19 +70,52 @@ function recalcAlertas(s: State): Alerta[] {
 
 state = { ...state, alertas: recalcAlertas(state) };
 
-/** 1 segundo real = 12 segundos de operação */
-const FATOR = 12;
+/** 1 segundo real = 8 segundos de operação */
+const FATOR = 8;
+
+function atualizaStatusVeiculo(v: Vehicle): VehicleStatus {
+  if (v.rastreando) {
+    return v.pecas.some((p) => isPecaCritica(p)) ? "critico" : "em_rota";
+  }
+
+  if (v.status === "manutencao") return "manutencao";
+  if (v.pecas.some((p) => isPecaCritica(p))) return "critico";
+  return "parado";
+}
 
 function avancar(v: Vehicle, segundos: number): Vehicle {
-  const emMovimento = v.rastreando || v.status === "em_rota" || v.status === "critico";
-  if (!emMovimento) return v;
-  const km = (v.velocidade / 3600) * segundos * FATOR;
+  if (!v.rastreando) {
+    return {
+      ...v,
+      velocidade: 0,
+      status: atualizaStatusVeiculo(v),
+    };
+  }
+
+  const critico = v.pecas.some((p) => isPecaCritica(p));
+  const baseVelocidade = 48 + Math.random() * 42;
+  const desgaste = v.pecas.reduce((acc, p) => acc + Math.max(0, 100 - vidaUtil(p)), 0) / Math.max(v.pecas.length, 1);
+  const velocidade = Math.round(
+    Math.max(22, Math.min(102, baseVelocidade + (Math.sin((v.odometro + Date.now()) / 1800) * 14) - desgaste * 0.28 - (critico ? 20 : 0))),
+  );
+  const km = (velocidade / 3600) * segundos * FATOR * 1.25;
+
+  const pecas = v.pecas.map((p) => {
+    const desgastePorKm = (100 - vidaUtil(p)) / 120 + 0.055;
+    const usoKm = Number(Math.min(p.intervaloKm, p.usoKm + km * desgastePorKm * (critico ? 2.2 : 1.3)).toFixed(2));
+    return { ...p, usoKm };
+  });
+
+  const status = critico ? "critico" : "em_rota";
+
   return {
     ...v,
-    odometro: v.odometro + km,
-    kmViagem: v.rastreando ? v.kmViagem + km : v.kmViagem,
+    odometro: Number((v.odometro + km).toFixed(1)),
+    kmViagem: Number((v.kmViagem + km).toFixed(1)),
     progressoRota: Math.min(1, v.progressoRota + km / 600),
-    pecas: v.pecas.map((p) => ({ ...p, usoKm: Math.min(p.intervaloKm, p.usoKm + km) })),
+    velocidade,
+    pecas,
+    status,
   };
 }
 
@@ -115,17 +149,29 @@ export const fleetStore = {
   alternarRastreio(id: string, ativo: boolean) {
     setState((s) => ({
       ...s,
-      veiculos: s.veiculos.map((v) =>
-        v.id === id
-          ? {
-              ...v,
-              rastreando: ativo,
-              kmViagem: ativo ? 0 : v.kmViagem,
-              progressoRota: ativo ? 0 : v.progressoRota,
-              status: ativo ? (v.status === "critico" ? "critico" : "em_rota") : "parado",
-            }
-          : v,
-      ),
+      veiculos: s.veiculos.map((v) => {
+        if (v.id !== id) return v;
+
+        const critico = v.pecas.some((p) => isPecaCritica(p));
+
+        if (ativo) {
+          return {
+            ...v,
+            rastreando: true,
+            kmViagem: 0,
+            progressoRota: 0,
+            velocidade: Math.round(52 + Math.random() * 18),
+            status: critico ? "critico" : "em_rota",
+          };
+        }
+
+        return {
+          ...v,
+          rastreando: false,
+          velocidade: 0,
+          status: critico ? "critico" : "parado",
+        };
+      }),
     }));
   },
   registrarManutencao(veiculoId: string, pecaId: string, tecnico: string, custo: number) {
@@ -145,7 +191,7 @@ export const fleetStore = {
           status: "CONCLUÍDO",
         };
         const pecas = v.pecas.map((p) => (p.id === pecaId ? { ...p, usoKm: 0 } : p));
-        const aindaCritico = pecas.some((p) => vidaUtil(p) <= 20);
+        const aindaCritico = pecas.some((p) => isPecaCritica(p));
         return {
           ...v,
           pecas,

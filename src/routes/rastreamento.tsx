@@ -8,12 +8,12 @@ import { formatKm } from "@/lib/fleet-data";
 export const Route = createFileRoute("/rastreamento")({
   head: () => ({
     meta: [
-      { title: "Rastreamento GPS — VULCAN Fleet Control" },
+      { title: "Rastreamento GPS — MOZ Fleet Control" },
       {
         name: "description",
         content: "Rastreamento GPS por veículo: inicie ou pare a rota e acompanhe os km percorridos.",
       },
-      { property: "og:title", content: "Rastreamento GPS — VULCAN Fleet Control" },
+      { property: "og:title", content: "Rastreamento GPS — MOZ Fleet Control" },
       {
         property: "og:description",
         content: "Inicie ou pare o rastreamento e acompanhe km percorridos, velocidade e traçado da rota.",
@@ -73,7 +73,7 @@ function Rastreamento() {
               <div className="rounded-md bg-surface-2 border border-border p-3">
                 <div className="text-[10px] uppercase tracking-[0.14em] text-muted">Velocidade</div>
                 <div className="font-mono text-2xl font-bold">
-                  {v.rastreando ? v.velocidade : 0}
+                  {v.rastreando ? Math.round(v.velocidade) : 0}
                   <span className="text-muted text-sm"> km/h</span>
                 </div>
               </div>

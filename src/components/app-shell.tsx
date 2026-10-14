@@ -43,7 +43,7 @@ export function AppShell({ titulo, sublinha, children }: { titulo: string; subli
                 VX
               </div>
               <div className="leading-tight">
-                <div className="font-bold tracking-tight text-[15px]">VULCAN</div>
+                <div className="font-bold tracking-tight text-[15px]">MOZ</div>
                 <div className="text-[10px] uppercase tracking-[0.18em] text-muted">Fleet Control</div>
               </div>
             </div>
@@ -79,7 +79,7 @@ export function AppShell({ titulo, sublinha, children }: { titulo: string; subli
           <header className="sticky top-0 z-10 bg-background/85 backdrop-blur border-b border-border">
             <div className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3">
               <div className="flex items-center gap-3 min-w-0">
-                <span className="md:hidden font-bold tracking-tight">VULCAN</span>
+                <span className="md:hidden font-bold tracking-tight">MOZ</span>
                 <h1 className="text-base sm:text-lg font-bold tracking-tight truncate">{titulo}</h1>
                 {sublinha ? <span className="hidden sm:inline text-[11px] font-mono text-muted">/ {sublinha}</span> : null}
               </div>

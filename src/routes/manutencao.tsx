@@ -8,12 +8,12 @@ import { formatKm, formatMoeda, tecnicos, vidaUtil } from "@/lib/fleet-data";
 export const Route = createFileRoute("/manutencao")({
   head: () => ({
     meta: [
-      { title: "Manutenção — VULCAN Fleet Control" },
+      { title: "Manutenção — MOZ Fleet Control" },
       {
         name: "description",
         content: "Vida útil das peças, alertas automáticos e registro de manutenção da frota de viaturas.",
       },
-      { property: "og:title", content: "Manutenção — VULCAN Fleet Control" },
+      { property: "og:title", content: "Manutenção — MOZ Fleet Control" },
       {
         property: "og:description",
         content: "Acompanhe o desgaste das peças, receba alertas automáticos e registre serviços executados.",

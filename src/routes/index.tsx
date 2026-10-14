@@ -7,13 +7,13 @@ import { formatKm } from "@/lib/fleet-data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Frota — VULCAN Fleet Control" },
+      { title: "Frota — MOZ Fleet Control" },
       {
         name: "description",
         content:
           "Painel de operação da frota de viaturas: odômetro em tempo real, status por veículo e alertas de manutenção.",
       },
-      { property: "og:title", content: "Frota — VULCAN Fleet Control" },
+      { property: "og:title", content: "Frota — MOZ Fleet Control" },
       {
         property: "og:description",
         content: "Painel de operação da frota de viaturas com odômetro em tempo real e alertas de manutenção.",
@@ -79,9 +79,9 @@ function Frota() {
                       <Link
                         to="/veiculo/$id"
                         params={{ id: v.id }}
-                        className="text-accent text-xs font-mono hover:underline"
+                        className="inline-flex items-center justify-center rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-background shadow-sm transition hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent/40"
                       >
-                        Detalhes
+                        Ver detalhes
                       </Link>
                     </td>
                   </tr>

@@ -2,17 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { Botao, Panel } from "@/components/fleet-ui";
 import { useFleet } from "@/lib/fleet-store";
-import { formatKm, formatMoeda, vidaUtil } from "@/lib/fleet-data";
+import { formatKm, formatMoeda, vidaUtil, LIMITE_CRITICO_VIDA_UTIL, LIMITE_AVISO_VIDA_UTIL } from "@/lib/fleet-data";
 
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
     meta: [
-      { title: "Relatórios — VULCAN Fleet Control" },
+      { title: "Relatórios — MOZ Fleet Control" },
       {
         name: "description",
         content: "Relatório consolidado da frota com custos de manutenção, quilometragem e exportação em PDF.",
       },
-      { property: "og:title", content: "Relatórios — VULCAN Fleet Control" },
+      { property: "og:title", content: "Relatórios — MOZ Fleet Control" },
       {
         property: "og:description",
         content: "Relatório consolidado da frota: custos, quilometragem, peças críticas e exportação em PDF.",
@@ -82,7 +82,11 @@ function Relatorios() {
                       <td className="px-4 py-3 text-right font-mono tabular-nums">{formatKm(v.odometro)}</td>
                       <td className="px-4 py-3">
                         {pior.nome}{" "}
-                        <span className={`font-mono text-xs ${pct <= 20 ? "text-crit" : pct <= 55 ? "text-warn" : "text-ok"}`}>
+                        <span
+                          className={`font-mono text-xs ${
+                            pct <= LIMITE_CRITICO_VIDA_UTIL ? "text-crit" : pct <= LIMITE_AVISO_VIDA_UTIL ? "text-warn" : "text-ok"
+                          }`}
+                        >
                           {pct}%
                         </span>
                       </td>

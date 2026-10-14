@@ -119,19 +119,19 @@ export const veiculosIniciais: Vehicle[] = [
     kmViagem: 0,
     progressoRota: 0.35,
     pecas: [
-      peca("oleo", "Óleo do motor", 7500, 0.84),
-      peca("filtro-oleo", "Filtro de óleo", 7500, 0.72),
-      peca("combustivel", "Filtro de Diesel (combustível)", 15000, 0.6),
-      peca("ar", "Filtro de ar", 10000, 0.72),
-      peca("travoes", "Travões (pastilhas/sapatas)", 30000, 0.5),
-      peca("pneus", "Pneus (pressão e desgaste)", 60000, 0.45),
-      peca("suspensao", "Suspensão (molas, amortecedores, buchas)", 40000, 0.62),
-      peca("embraiagem", "Embraiagem", 80000, 0.38),
-      peca("arrefecimento", "Sistema de arrefecimento", 40000, 0.3),
-      peca("correias", "Correias", 50000, 0.55),
-      peca("caixa", "Óleo da caixa e diferencial", 40000, 0.48),
-      peca("direcao", "Direção (folgas e alinhamento)", 20000, 0.66),
-      peca("bateria", "Bateria e alternador", 50000, 0.25),
+      peca("oleo", "Óleo do motor", 2200, 0.84),
+      peca("filtro-oleo", "Filtro de óleo", 2200, 0.72),
+      peca("combustivel", "Filtro de Diesel (combustível)", 2600, 0.6),
+      peca("ar", "Filtro de ar", 2400, 0.72),
+      peca("travoes", "Travões (pastilhas/sapatas)", 4200, 0.5),
+      peca("pneus", "Pneus (pressão e desgaste)", 7000, 0.45),
+      peca("suspensao", "Suspensão (molas, amortecedores, buchas)", 5400, 0.62),
+      peca("embraiagem", "Embraiagem", 9200, 0.38),
+      peca("arrefecimento", "Sistema de arrefecimento", 4700, 0.3),
+      peca("correias", "Correias", 5600, 0.55),
+      peca("caixa", "Óleo da caixa e diferencial", 4300, 0.48),
+      peca("direcao", "Direção (folgas e alinhamento)", 2900, 0.66),
+      peca("bateria", "Bateria e alternador", 6100, 0.25),
     ],
     historico: [
       { id: "h1", data: "17/09/2026", peca: "Óleo do motor", tecnico: "G. Ferrão", odometro: 281150, custo: 4500, status: "CONCLUÍDO" },
@@ -143,15 +143,22 @@ export const veiculosIniciais: Vehicle[] = [
 
 export const tecnicos = ["G. Ferrão", "C. Duarte", "R. Alves", "M. Souza", "J. Nogueira", "M. Rocha"];
 
+export const LIMITE_CRITICO_VIDA_UTIL = 20;
+export const LIMITE_AVISO_VIDA_UTIL = 30;
+
 export function vidaUtil(p: Part) {
   return Math.max(0, Math.min(100, Math.round((1 - p.usoKm / p.intervaloKm) * 100)));
+}
+
+export function isPecaCritica(p: Part) {
+  return vidaUtil(p) <= LIMITE_CRITICO_VIDA_UTIL;
 }
 
 export type Severidade = "ok" | "warn" | "crit";
 
 export function severidade(pct: number): Severidade {
-  if (pct <= 20) return "crit";
-  if (pct <= 55) return "warn";
+  if (pct <= LIMITE_CRITICO_VIDA_UTIL) return "crit";
+  if (pct <= LIMITE_AVISO_VIDA_UTIL) return "warn";
   return "ok";
 }
 
