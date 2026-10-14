@@ -63,7 +63,7 @@ function Relatorios() {
             <table className="w-full text-sm min-w-[720px]">
               <thead>
                 <tr className="text-[10px] uppercase tracking-[0.14em] text-muted border-b border-border">
-                  <th className="text-left font-medium px-4 py-2">Placa</th>
+                  <th className="text-left font-medium px-4 py-2">Matrícula</th>
                   <th className="text-left font-medium px-4 py-2">Modelo</th>
                   <th className="text-right font-medium px-4 py-2">Odômetro</th>
                   <th className="text-left font-medium px-4 py-2">Peça mais desgastada</th>

@@ -119,8 +119,9 @@ export const veiculosIniciais: Vehicle[] = [
     kmViagem: 0,
     progressoRota: 0.35,
     pecas: [
-      peca("oleo", "Óleo do motor + filtro", 7500, 0.84),
-      peca("combustivel", "Filtro de combustível", 15000, 0.6),
+      peca("oleo", "Óleo do motor", 7500, 0.84),
+      peca("filtro-oleo", "Filtro de óleo", 7500, 0.72),
+      peca("combustivel", "Filtro de Diesel (combustível)", 15000, 0.6),
       peca("ar", "Filtro de ar", 10000, 0.72),
       peca("travoes", "Travões (pastilhas/sapatas)", 30000, 0.5),
       peca("pneus", "Pneus (pressão e desgaste)", 60000, 0.45),
@@ -133,7 +134,7 @@ export const veiculosIniciais: Vehicle[] = [
       peca("bateria", "Bateria e alternador", 50000, 0.25),
     ],
     historico: [
-      { id: "h1", data: "17/09/2026", peca: "Óleo do motor + filtro", tecnico: "G. Ferrão", odometro: 281150, custo: 4500, status: "CONCLUÍDO" },
+      { id: "h1", data: "17/09/2026", peca: "Óleo do motor", tecnico: "G. Ferrão", odometro: 281150, custo: 4500, status: "CONCLUÍDO" },
       { id: "h2", data: "02/08/2026", peca: "Travões (pastilhas/sapatas)", tecnico: "C. Duarte", odometro: 272450, custo: 9800, status: "CONCLUÍDO" },
       { id: "h3", data: "10/07/2026", peca: "Direção (folgas e alinhamento)", tecnico: "R. Alves", odometro: 274250, custo: 3200, status: "PENDENTE" },
     ],
