@@ -35,122 +35,112 @@ export type Vehicle = {
   historico: MaintenanceRecord[];
 };
 
-const pecasBase = (f: number[]): Part[] => [
-  { id: "freio", nome: "Freio de serviço", intervaloKm: 60000, usoKm: Math.round(60000 * f[0]) },
-  { id: "oleo", nome: "Óleo do motor", intervaloKm: 30000, usoKm: Math.round(30000 * f[1]) },
-  { id: "pneus", nome: "Pneus eixo traseiro", intervaloKm: 90000, usoKm: Math.round(90000 * f[2]) },
-  { id: "bateria", nome: "Bateria", intervaloKm: 120000, usoKm: Math.round(120000 * f[3]) },
-  { id: "ar", nome: "Sistema de ar", intervaloKm: 150000, usoKm: Math.round(150000 * f[4]) },
-  { id: "embreagem", nome: "Embreagem", intervaloKm: 200000, usoKm: Math.round(200000 * f[5]) },
+export const especificacoes: { rotulo: string; valor: string }[] = [
+  { rotulo: "Motor", valor: "Toyota 3B · 4 cilindros em linha · Diesel" },
+  { rotulo: "Cilindrada", valor: "3.431 cc (3.4 litros)" },
+  { rotulo: "Potência", valor: "≈ 85–98 hp (85–90 cv)" },
+  { rotulo: "Alimentação", valor: "Bomba injetora manual" },
+  { rotulo: "Transmissão", valor: "Caixa manual de 5 velocidades" },
+  { rotulo: "Tração", valor: "Traseira (2WD)" },
+  { rotulo: "Lotação", valor: "26 lugares" },
+  { rotulo: "Direção", valor: "Assistida (hidráulica)" },
+  { rotulo: "Suspensão", valor: "Molas parabólicas/helicoidais" },
+  { rotulo: "Peso bruto (PBV)", valor: "≈ 6.600 kg" },
 ];
+
+export const sintomas: { grupo: string; itens: string[] }[] = [
+  {
+    grupo: "Direção e suspensão dianteira",
+    itens: [
+      "Folga vertical e lateral na roda dianteira",
+      "Estalos secos (\"clac-clac\") ao manobrar",
+      "Desgaste irregular dos pneus (interno/externo)",
+      "Direção pesada, desalinhada ou com folga",
+      "Rangidos metálicos nas rótulas e terminais",
+      "Batidas secas (\"tuc-tuc\") na suspensão dianteira",
+      "Frente da viatura \"arreada\" ou desalinhada",
+      "Oscilação e instabilidade (\"saltitar\") em velocidade",
+    ],
+  },
+  {
+    grupo: "Suspensão traseira",
+    itens: [
+      "Ranger seco (\"crec-crec\") no feixe de molas traseiro",
+      "Fuga da traseira (\"dançar\") em curvas",
+      "Desalinhamento do eixo traseiro",
+    ],
+  },
+  {
+    grupo: "Travões",
+    itens: [
+      "Pedal de travão/embraiagem esponjoso ou a afundar",
+      "Pedal duro ou travões colados",
+      "Fuga de fluido de travão",
+      "Chiado metálico ao travar",
+      "Vibração no volante durante a travagem",
+      "Travão de mão fraco ou inoperante",
+    ],
+  },
+  {
+    grupo: "Embraiagem e transmissão",
+    itens: [
+      "Embraiagem a patinar",
+      "Dificuldade e arranhar ao engatar mudanças",
+      "Ruído ao pisar o pedal de embraiagem",
+    ],
+  },
+  {
+    grupo: "Cubos e rodas",
+    itens: [
+      "Zumbido ou ronco metálico nos cubos das rodas",
+      "Fuga de graxa/óleo para os discos e balatas",
+    ],
+  },
+];
+
+const peca = (id: string, nome: string, intervaloKm: number, f: number): Part => ({
+  id,
+  nome,
+  intervaloKm,
+  usoKm: Math.round(intervaloKm * f),
+});
 
 export const veiculosIniciais: Vehicle[] = [
   {
-    id: "trk-4821",
-    placa: "TRK-4821",
-    modelo: "Scania R 500",
-    odometro: 482190,
+    id: "coaster-01",
+    placa: "AFB-237-MC",
+    modelo: "Toyota Coaster 3B · 26 lugares",
+    odometro: 287450,
     origem: "Maputo",
-    destino: "Beira",
-    velocidade: 72,
-    status: "em_rota",
-    rastreando: false,
-    kmViagem: 0,
-    progressoRota: 0.42,
-    pecas: pecasBase([0.82, 0.56, 0.48, 0.19, 0.1, 0.3]),
-    historico: [
-      { id: "h1", data: "03/02/2025", peca: "Troca de óleo", tecnico: "C. Duarte", odometro: 468300, custo: 680, status: "CONCLUÍDO" },
-      { id: "h2", data: "15/01/2025", peca: "Substituição de freios", tecnico: "R. Alves", odometro: 461120, custo: 1240, status: "PENDENTE" },
-    ],
-  },
-  {
-    id: "trk-4822",
-    placa: "TRK-4822",
-    modelo: "Volvo FH 540",
-    odometro: 391044,
-    origem: "Beira",
-    destino: "Chimoio",
-    velocidade: 65,
-    status: "manutencao",
-    rastreando: false,
-    kmViagem: 0,
-    progressoRota: 0.18,
-    pecas: pecasBase([0.44, 0.88, 0.35, 0.28, 0.21, 0.4]),
-    historico: [
-      { id: "h3", data: "28/01/2025", peca: "Alinhamento de pneus", tecnico: "M. Souza", odometro: 384900, custo: 420, status: "CONCLUÍDO" },
-    ],
-  },
-  {
-    id: "trk-4823",
-    placa: "TRK-4823",
-    modelo: "Mercedes Actros",
-    odometro: 256780,
-    origem: "Nacala",
-    destino: "Lichinga",
-    velocidade: 78,
-    status: "em_rota",
-    rastreando: false,
-    kmViagem: 0,
-    progressoRota: 0.66,
-    pecas: pecasBase([0.22, 0.31, 0.18, 0.12, 0.08, 0.15]),
-    historico: [
-      { id: "h4", data: "02/01/2025", peca: "Revisão geral", tecnico: "C. Duarte", odometro: 249400, custo: 2100, status: "CONCLUÍDO" },
-    ],
-  },
-  {
-    id: "trk-4824",
-    placa: "TRK-4824",
-    modelo: "DAF XF 480",
-    odometro: 178332,
-    origem: "Pemba",
-    destino: "Montepuez",
-    velocidade: 68,
-    status: "parado",
-    rastreando: false,
-    kmViagem: 0,
-    progressoRota: 0,
-    pecas: pecasBase([0.35, 0.42, 0.25, 0.3, 0.14, 0.2]),
-    historico: [
-      { id: "h5", data: "20/12/2024", peca: "Troca de bateria", tecnico: "M. Rocha", odometro: 171200, custo: 990, status: "CONCLUÍDO" },
-    ],
-  },
-  {
-    id: "trk-4825",
-    placa: "TRK-4825",
-    modelo: "Iveco S-Way",
-    odometro: 612905,
-    origem: "Tete",
-    destino: "Quelimane",
-    velocidade: 61,
-    status: "critico",
-    rastreando: false,
-    kmViagem: 0,
-    progressoRota: 0.31,
-    pecas: pecasBase([0.94, 0.91, 0.87, 0.55, 0.42, 0.62]),
-    historico: [
-      { id: "h6", data: "10/01/2025", peca: "Troca de óleo", tecnico: "J. Nogueira", odometro: 601500, custo: 720, status: "CONCLUÍDO" },
-    ],
-  },
-  {
-    id: "trk-4826",
-    placa: "TRK-4826",
-    modelo: "Volvo FH 460",
-    odometro: 132401,
-    origem: "Matola",
     destino: "Xai-Xai",
-    velocidade: 74,
+    velocidade: 70,
     status: "em_rota",
     rastreando: false,
     kmViagem: 0,
-    progressoRota: 0.55,
-    pecas: pecasBase([0.28, 0.63, 0.22, 0.16, 0.09, 0.18]),
+    progressoRota: 0.35,
+    pecas: [
+      peca("oleo", "Óleo do motor + filtro", 7500, 0.84),
+      peca("combustivel", "Filtro de combustível", 15000, 0.6),
+      peca("ar", "Filtro de ar", 10000, 0.72),
+      peca("travoes", "Travões (pastilhas/sapatas)", 30000, 0.5),
+      peca("pneus", "Pneus (pressão e desgaste)", 60000, 0.45),
+      peca("suspensao", "Suspensão (molas, amortecedores, buchas)", 40000, 0.62),
+      peca("embraiagem", "Embraiagem", 80000, 0.38),
+      peca("arrefecimento", "Sistema de arrefecimento", 40000, 0.3),
+      peca("correias", "Correias", 50000, 0.55),
+      peca("caixa", "Óleo da caixa e diferencial", 40000, 0.48),
+      peca("direcao", "Direção (folgas e alinhamento)", 20000, 0.66),
+      peca("bateria", "Bateria e alternador", 50000, 0.25),
+    ],
     historico: [
-      { id: "h7", data: "05/02/2025", peca: "Inspeção de freios", tecnico: "R. Alves", odometro: 130100, custo: 310, status: "CONCLUÍDO" },
+      { id: "h1", data: "17/09/2026", peca: "Óleo do motor + filtro", tecnico: "G. Ferrão", odometro: 281150, custo: 4500, status: "CONCLUÍDO" },
+      { id: "h2", data: "02/08/2026", peca: "Travões (pastilhas/sapatas)", tecnico: "C. Duarte", odometro: 272450, custo: 9800, status: "CONCLUÍDO" },
+      { id: "h3", data: "10/07/2026", peca: "Direção (folgas e alinhamento)", tecnico: "R. Alves", odometro: 274250, custo: 3200, status: "PENDENTE" },
     ],
   },
 ];
 
-export const tecnicos = ["C. Duarte", "R. Alves", "M. Souza", "J. Nogueira", "M. Rocha"];
+export const tecnicos = ["G. Ferrão", "C. Duarte", "R. Alves", "M. Souza", "J. Nogueira", "M. Rocha"];
 
 export function vidaUtil(p: Part) {
   return Math.max(0, Math.min(100, Math.round((1 - p.usoKm / p.intervaloKm) * 100)));
